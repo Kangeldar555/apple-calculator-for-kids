@@ -1,0 +1,12 @@
+$buttonSize: 70px;
+$borderBottomRadius: 50px;
+
+.btn {
+    //background-color: aqua!important;
+    //border-color: rgb(219, 205, 2)!important;
+    width: $buttonSize;
+    height: $buttonSize;
+    border-radius: 0;
+    border-bottom-left-radius: $borderBottomRadius;
+    border-bottom-right-radius: $borderBottomRadius;
+  }
