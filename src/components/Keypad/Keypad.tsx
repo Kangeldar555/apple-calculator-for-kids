@@ -1,40 +1,46 @@
 import React, { useState } from 'react';
+import './Keypad.scss';
 import Button from '../Button/Button';
-
 import ButtonGroup from 'react-bootstrap/esm/ButtonGroup';
 
-type Props = {};
+type Props = {
+  _handleKeypadInput: (value: string) => void;
+};
 
-const Keypad = (props: Props) => {
+const Keypad = ({ _handleKeypadInput }: Props) => {
 
   const [size, setSize] = useState<'sm' | 'lg' | undefined>('lg')
-
+  
+  const handleKeypadInput = (input: string) => {
+    _handleKeypadInput(input); //Función para manejar 'input' en el componente padre
+  };
+  
   return (
     <>
       <ButtonGroup vertical>
         <ButtonGroup size={ size } aria-label="First group">
-          <Button>7</Button>   
-          <Button>8</Button>   
-          <Button>9</Button>   
-          <Button>/</Button> 
+          <Button _onClick={ handleKeypadInput }>7</Button>   
+          <Button _onClick={ handleKeypadInput }>8</Button>   
+          <Button _onClick={ handleKeypadInput }>9</Button>   
+          <Button _onClick={ handleKeypadInput }>/</Button> 
         </ButtonGroup>
         <ButtonGroup size={ size } aria-label="Second group">
-          <Button>4</Button>   
-          <Button>5</Button>   
-          <Button>6</Button>   
-          <Button>*</Button> 
+          <Button _onClick={ handleKeypadInput }>4</Button>   
+          <Button _onClick={ handleKeypadInput }>5</Button>   
+          <Button _onClick={ handleKeypadInput }>6</Button>   
+          <Button _onClick={ handleKeypadInput }>*</Button> 
         </ButtonGroup>
         <ButtonGroup size={ size } aria-label="First group">
-          <Button>1</Button>   
-          <Button>2</Button>   
-          <Button>3</Button>   
-          <Button>-</Button> 
+          <Button _onClick={ handleKeypadInput }>1</Button>   
+          <Button _onClick={ handleKeypadInput }>2</Button>   
+          <Button _onClick={ handleKeypadInput }>3</Button>   
+          <Button _onClick={ handleKeypadInput }>-</Button> 
         </ButtonGroup>
-        <ButtonGroup size={ size } aria-label="First group">
-          <Button>0</Button>   
-          <Button>C</Button>   
-          <Button>=</Button>   
-          <Button>+</Button> 
+        <ButtonGroup className = 'aaa' size={ size } aria-label="First group">
+          <Button _onClick={ handleKeypadInput }>0</Button>   
+          <Button _onClick={ handleKeypadInput }>C</Button>   
+          <Button _onClick={ handleKeypadInput }>=</Button>   
+          <Button _onClick={ handleKeypadInput }>+</Button> 
         </ButtonGroup>
       </ButtonGroup>
     </>

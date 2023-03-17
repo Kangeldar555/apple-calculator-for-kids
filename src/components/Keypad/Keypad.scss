@@ -1,0 +1,7 @@
+$borderBottomRadius: 50px;
+
+.btn {
+    border-radius: 0;
+    border-bottom-left-radius: $borderBottomRadius;
+    border-bottom-right-radius: $borderBottomRadius;
+}

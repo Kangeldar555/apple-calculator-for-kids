@@ -5,9 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 type Props = {
   children: string;
+  _onClick: (buttonContent: string) => void;
 }
 
-const Button = ({ children }: Props) => {
+const Button = ({ children, _onClick }: Props) => {
 
   //Tipos de estilos para un button en bootstrap
   let style: 'primary' 
@@ -34,7 +35,8 @@ const Button = ({ children }: Props) => {
   }
 
   return (
-    <Button_ variant={ style }>
+    <Button_ variant={ style }
+    onClick={() => _onClick(children)}>
       { children }     
     </Button_>
   )
