@@ -36,7 +36,7 @@ const Keypad = ({ _handleKeypadInput }: Props) => {
           <Button _onClick={ handleKeypadInput }>3</Button>   
           <Button _onClick={ handleKeypadInput }>-</Button> 
         </ButtonGroup>
-        <ButtonGroup className = 'aaa' size={ size } aria-label="First group">
+        <ButtonGroup size={ size } aria-label="First group">
           <Button _onClick={ handleKeypadInput }>0</Button>   
           <Button _onClick={ handleKeypadInput }>C</Button>   
           <Button _onClick={ handleKeypadInput }>=</Button>   
