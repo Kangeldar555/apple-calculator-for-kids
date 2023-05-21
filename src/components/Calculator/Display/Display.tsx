@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Display.scss';
 import apple from '../../../images/apple.png';
+import apple2 from '../../../images/apple2.png';
+import AppleSlice from '../AppleSlice/AppleSlice';
 
 // 'input' se utiliza para registrar los ingresos del teclado
 // 'calculate' se utiliza para mostrar la expresión de la operación después de darle al botón igual.
@@ -12,7 +14,7 @@ type Props = {
 const Display = ({ input, calculate }: Props) => {
   
   // Relación de aspecto de la imagen usada (ancho/alto)
-  const appleImageRatio = 1.231;
+  const appleImageRatio = 9/11;
 
   const [operation, setOperation] = useState<string[]>([]);
   const [numColumnsArr, setNumColumnsArr] = useState<number[]>([]);  
@@ -40,17 +42,31 @@ const Display = ({ input, calculate }: Props) => {
       const updatedNumColumnsArr = [...numColumnsArr];
       
       // Iteramos sobre la operación que determina el número de columnas por contenedor de manzanas
+      // Usamos la expresión i+=2 para saltar unicamente sobre los datos numéricos de la operación
       for (let i = 0; i < operation.length; i+=2) {
-        // Obtenemos el área y lado de cada manzana
-        const appleArea = area/Number(operation[i]);
+        // Redondeamos al entero más proximo hacia arriba de operation[i]
+        const integerPartOperation = Math.ceil(Number(operation[i]));
+        // Obtenemos el área y el lado de cada manzana
+        const appleArea = area/integerPartOperation;
         const appleSide = Math.sqrt(appleArea);
-        // Calculamos el número de columnas necesarias
-        let numColumns = width/appleSide;
-        // Hacemos un ajuste al número de columnas necesarias dependiendo de la relación de escala de la imagen usada si no es 1/1
-        numColumns = Math.round(numColumns*appleImageRatio);
+
+        let numColumns: number;
+
+        /* Calculamos el número de columnas necesarias
+        Si el alto del contenedor de manzanas es menor al alto de la manzana con su respectivo ajuste de aspecto 
+          se asigna un número de columnas igual que el total de manzanas que registre la operación en i.
+        De lo contrario, se hace el calculo de columnas dividiendo el ancho del contenedor de manzanas por
+          el ancho de la manzana con su respectivo ajuste de aspecto*/
+        if (height < (appleSide/appleImageRatio)) {
+          numColumns = integerPartOperation;          
+        } else {
+          numColumns = Math.round(width/(appleSide*appleImageRatio));
+        }
+        //Actualizamos el array con el número de columnas por contenedor de manzanas (i)
         updatedNumColumnsArr[i] = numColumns;
-        setNumColumnsArr(updatedNumColumnsArr)
-      }
+        setNumColumnsArr(updatedNumColumnsArr)    
+        console.log(`Altura de la manzana: ${appleSide/appleImageRatio}`) 
+      }      
 
       console.log(`Ancho del elemento: ${applesImagesElementRef.current.offsetWidth}`);
       console.log(`Altura del elemento: ${applesImagesElementRef.current.offsetHeight}`);
@@ -58,13 +74,21 @@ const Display = ({ input, calculate }: Props) => {
       console.log(operation.length)
       console.log(`operación: ${operation}`)
       console.log(`Array columnas: ${updatedNumColumnsArr}`)
+      console.log(`Array columnas arreglo: ${numColumnsArr}`)
     }
   }, [operation]);
   
-  // Genera un objeto de estilos dinámico para el número de columnas de cada contenedor de manzanas
-  const applesImagesElementStyles = (i: number) => ({
-    gridTemplateColumns: `repeat(${numColumnsArr[i]}, 1fr)`
-  })
+  // Genera un objeto de estilos dinámico para el número de filas y columnas de cada contenedor de manzanas
+  const applesImagesElementStyles = (i: number) => {
+    // Redondeamos al entero más proximo hacia arriba de operation[i]
+    const integerPartOperation = Math.ceil(Number(operation[i]));
+    // Calculamos el número de filas (redondeamos hacia arriba)
+    const rows = Math.ceil(integerPartOperation / numColumnsArr[i])
+    return {
+      gridTemplateColumns: `repeat(${numColumnsArr[i]}, 1fr)`,
+      gridTemplateRows: `repeat(${rows}, 1fr)`
+    }
+  }
   
   // Mapeamos el array de 'operation' para generar los elementos de la calculadora  
   const operationElements = operation.map((item, index) => {
@@ -88,6 +112,7 @@ const Display = ({ input, calculate }: Props) => {
       // Se retorna un div que contiene las imágenes de manzanas
       // Se establece la propiedad 'ref' solo en el primer contenedor de manzanas para obtener una referencia a él
       // Se le asignan los estilos dinámicos de 'gridTemplateColumns' usando 'applesImagesElementStyles'
+      // Se renderiza la imagen apple en proporción a la fracción decimal si el número no es entero (Number(item)%1 > 0)
       return (
         <div
         key={`apples-${index}-${item}`}
@@ -95,6 +120,7 @@ const Display = ({ input, calculate }: Props) => {
         ref={index === 0 ? applesImagesElementRef : null}
         style={applesImagesElementStyles(index)}>
           {apples}
+          {Number(item)%1 > 0 && <AppleSlice img={apple2} alt="Apple" decimalFraction={Number(item)%1}></AppleSlice>}
         </div>
       );
     };

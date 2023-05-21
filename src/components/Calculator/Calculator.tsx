@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { evaluate } from 'mathjs'; //Paquete matemático (npm install mathjs)
+import { evaluate, fraction} from 'mathjs'; //Paquete matemático (npm install mathjs)
 import Display from './Display/Display';
 import Keypad from './Keypad/Keypad';
 import './Calculator.scss'
