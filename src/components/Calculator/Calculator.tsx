@@ -13,8 +13,25 @@ const Calculator = (props: Props) => {
 
   //Función para calcular resultado
   const calculateResult = () => {
-    setCalculate(input + "=");// Establecemos la expresión de la operación actual
-    setInput(evaluate(input).toString()); //Función del paquete mathjs que nos permite calcular el resultado, nos devuelve un number
+    
+    // Reemplaza los operadores utilizados en el proyecto con los operadores aceptados por la función `evaluate()`
+    const replaceOperators = (toReplace: string) => {
+
+      // Objeto de operadores(key) con su remplazo(value)
+      const operatorsToReplace: {[key:string]:string} = {
+        '−':'-',
+        '×':'*',
+        '÷':'/'
+      };
+
+      // Expresión regular para buscar operadores a reemplazar
+      const regex = new RegExp(Object.keys(operatorsToReplace).join('|'), 'g')
+      
+      return toReplace.replace(regex, (operator) => operatorsToReplace[operator])
+    };
+
+    setCalculate(input + "=");// Establecemos la expresión de la operación actual    
+    setInput(evaluate(replaceOperators(input)).toString()); //Función del paquete mathjs que nos permite calcular el resultado, nos devuelve un number
   }
 
   //Función para agregar operadores al cálculo
@@ -23,8 +40,8 @@ const Calculator = (props: Props) => {
     /* Validación para evitar la presencia de operadores consecutivos en el cálculo.
     Si el último carácter del input es un operador, se reemplaza el operador anterior por el nuevo operador.
     De lo contrario, se agrega el operador al input.*/
-    // Nota: /[+\-\*\/]$/ expresión regular
-    if (/[-+*/]$/.test(input)) {     
+    // Nota: /[−+×÷]$/ expresión regular
+    if (/[−+×÷]$/.test(input)) {     
       setInput(input.slice(0,-1) + operator)
     } else {
       setInput(input + operator)
@@ -61,9 +78,9 @@ const Calculator = (props: Props) => {
         calculateResult();
         break;
       case "+":
-      case "-":
-      case "*":
-      case "/":
+      case "−":
+      case "×":
+      case "÷":
         addOperator(value);
         break;
       default:

@@ -22,9 +22,9 @@ const Display = ({ input, calculate }: Props) => {
   const applesImagesElementRef = useRef<HTMLDivElement>(null);
   
   // Separamos cada elemento de la operación en un array utilizando una expresión regular que busca los operadores
-  // (+, -, *, /, y =) como separadores. Cada número u operador se almacena en una posición del array Operation.
+  // (+, −, ×, ÷, y =) como separadores. Cada número u operador se almacena en una posición del array Operation.
   useEffect(() => {
-    setOperation(input.split(/([-+*/=])/));
+    setOperation(input.split(/([−+×÷=])/));
   }, [input]);  
  
   // Usamos useEffect para calcular el número de columnas de los contenedores de manzanas dependiendo de las dimensiones del elemento referenciado
@@ -92,7 +92,7 @@ const Display = ({ input, calculate }: Props) => {
   
   // Mapeamos el array de 'operation' para generar los elementos de la calculadora  
   const operationElements = operation.map((item, index) => {
-    if (/^[-+*/=]$/.test(item)) {
+    if (/^[−+×÷=]$/.test(item)) {
       // Si el item es un operador, se genera un div con la clase 'operatorElement' y el contenido del operador
       return (
         <div

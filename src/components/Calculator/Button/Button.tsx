@@ -22,7 +22,7 @@ const Button = ({ children, _onClick }: Props) => {
   | 'link'; 
 
   let numbers = '0123456789';
-  let operators = '+-*/';
+  let operators = '+−×÷';
 
   if (numbers.includes(children)) {
     style = 'warning' ; //Estilo números
