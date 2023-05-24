@@ -1,5 +1,42 @@
+$breakpoint-mobile: 768px;
+
 .calculatorContainer {
-    width: 400px;
-    border-radius: 50px;
-    overflow: hidden;
+    display: grid;
+    grid-template-rows: max(65%, 150px) max(35%, 150px);
+    height: 100%;
+    width: 100%;
+
+    .calculatorContainer-display {
+        overflow: auto;
+        font-size: max(4vw, 1.8rem);
+
+        @media (min-width: $breakpoint-mobile) {
+            height: inherit;
+            border-top-left-radius: inherit;
+            border-bottom-left-radius: inherit;
+            border: 1.5vw solid var(--bs-warning);
+            border-right: none;
+            overflow: hidden;            
+        }
+    }
+
+    .calculatorContainer-keypad {
+
+        font-size: max(3vw, 1.5rem);
+
+        @media (min-width: $breakpoint-mobile) {
+            height: inherit;     
+            border-top-right-radius: inherit;
+            border-bottom-right-radius: inherit;        
+            overflow: hidden;    
+        }
+    }
+
+    @media (min-width: $breakpoint-mobile) {
+        width: 98%;
+        height: 40vw;
+        border-radius: 5vw;
+        grid-template-rows: 1fr;
+        grid-template-columns: 70% 30%;    
+    }    
 }

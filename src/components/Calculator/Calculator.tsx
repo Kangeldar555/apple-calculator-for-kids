@@ -90,8 +90,12 @@ const Calculator = (props: Props) => {
 
   return (
     <div className='calculatorContainer'>
-      <Display input= { input } calculate= { calculate }/>
-      <Keypad _handleKeypadInput={ handleInput }/>
+      <div className="calculatorContainer-display">
+        <Display input= { input } calculate= { calculate }/>
+      </div>
+      <div className='calculatorContainer-keypad'>
+        <Keypad _handleKeypadInput={ handleInput }/>
+      </div>
     </div>
   )
 }
