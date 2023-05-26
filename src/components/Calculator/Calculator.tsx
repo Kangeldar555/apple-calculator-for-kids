@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { evaluate, fraction} from 'mathjs'; //Paquete matemático (npm install mathjs)
 import Display from './Display/Display';
 import Keypad from './Keypad/Keypad';
-import './Calculator.scss'
+import './Calculator.scss';
 
-type Props = {}
-
-const Calculator = (props: Props) => {
+const Calculator = () => {
 
   const [input, setInput] = useState<string>("0");
   const [calculate, setCalculate] = useState<string>("");
@@ -25,9 +23,9 @@ const Calculator = (props: Props) => {
       };
 
       // Expresión regular para buscar operadores a reemplazar
-      const regex = new RegExp(Object.keys(operatorsToReplace).join('|'), 'g')
+      const regex = new RegExp(Object.keys(operatorsToReplace).join('|'), 'g');
       
-      return toReplace.replace(regex, (operator) => operatorsToReplace[operator])
+      return toReplace.replace(regex, (operator) => operatorsToReplace[operator]);
     };
 
     setCalculate(input + "=");// Establecemos la expresión de la operación actual    
@@ -42,17 +40,17 @@ const Calculator = (props: Props) => {
     De lo contrario, se agrega el operador al input.*/
     // Nota: /[−+×÷]$/ expresión regular
     if (/[−+×÷]$/.test(input)) {     
-      setInput(input.slice(0,-1) + operator)
+      setInput(input.slice(0,-1) + operator);
     } else {
-      setInput(input + operator)
-    }
-  }
+      setInput(input + operator);
+    };
+  };
 
   //Función para agregar números al cálculo
   const addNumber = (number: string) => {
     if (calculate) setCalculate(""); //Limpiamos la expresión de la operación anterior
     input === "0" ? setInput(number) : setInput(input + number);
-  }
+  };
 
   //Función para borrar los datos
   const clear = () => {  
@@ -65,8 +63,8 @@ const Calculator = (props: Props) => {
     }
     else {
       setInput(input.length > 1 ? input.slice(0, -1) : "0");
-    }
-  }
+    };
+  };
 
   const handleInput = (value: string) => {
 
@@ -85,7 +83,7 @@ const Calculator = (props: Props) => {
         break;
       default:
         addNumber(value);
-    }
+    };
   };
 
   return (
@@ -97,7 +95,7 @@ const Calculator = (props: Props) => {
         <Keypad _handleKeypadInput={ handleInput }/>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Calculator;

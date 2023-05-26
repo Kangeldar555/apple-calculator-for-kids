@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './AppleSlice.scss';
-import { fraction, number } from 'mathjs'; //Paquete matemático (npm install mathjs)
+import { fraction } from 'mathjs'; //Paquete matemático (npm install mathjs)
 
 type Props = {
     img: string; // Ruta de la imagen

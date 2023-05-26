@@ -16,6 +16,12 @@ const Display = ({ input, calculate }: Props) => {
   // Relación de aspecto de la imagen usada (ancho/alto)
   const appleImageRatio = 9/11;
 
+  // Máximas manzanas a mostrar en el display por contenedor
+  const maxDisplayItems = 100;
+
+  // Número de decimales para los redondeos
+  const numDecimals = 2;
+
   const [operation, setOperation] = useState<string[]>([]);
   const [numColumnsArr, setNumColumnsArr] = useState<number[]>([]);  
   // Creamos una referencia mutable a un elemento de la interfaz de usuario con useRef
@@ -43,47 +49,52 @@ const Display = ({ input, calculate }: Props) => {
       
       // Iteramos sobre la operación que determina el número de columnas por contenedor de manzanas
       // Usamos la expresión i+=2 para saltar unicamente sobre los datos numéricos de la operación
-      for (let i = 0; i < operation.length; i+=2) {
-        // Redondeamos al entero más proximo hacia arriba de operation[i]
-        const integerPartOperation = Math.ceil(Number(operation[i]));
-        // Obtenemos el área y el lado de cada manzana
-        const appleArea = area/integerPartOperation;
-        const appleSide = Math.sqrt(appleArea);
+      for (let i=0; i < operation.length; i+=2) {
+        const itemOperation = Number(operation[i]);
+        let numColumns: number = 1;
 
-        let numColumns: number;
+        //Condicional para limitar número de items por contenedor
+        if (itemOperation<=maxDisplayItems && itemOperation>0) {
+          // Redondeamos al entero más proximo hacia arriba de operation[i]
+          const integerPartOperation = Math.ceil(itemOperation);
+          // Obtenemos el área y el lado de cada manzana
+          const appleArea = area/integerPartOperation;
+          const appleSide = Math.sqrt(appleArea);
 
-        /* Calculamos el número de columnas necesarias
-        Si el alto del contenedor de manzanas es menor al alto de la manzana con su respectivo ajuste de aspecto 
-          se asigna un número de columnas igual que el total de manzanas que registre la operación en i.
-        De lo contrario, se hace el calculo de columnas dividiendo el ancho del contenedor de manzanas por
-          el ancho de la manzana con su respectivo ajuste de aspecto*/
-        if (height < (appleSide/appleImageRatio)) {
-          numColumns = integerPartOperation;          
-        } else {
-          numColumns = Math.round(width/(appleSide*appleImageRatio));
-        }
+          /* Calculamos el número de columnas necesarias
+          Si el alto del contenedor de manzanas es menor al alto de la manzana con su respectivo ajuste de aspecto 
+            se asigna un número de columnas igual que el total de manzanas que registre la operación en i.
+          De lo contrario, se hace el calculo de columnas dividiendo el ancho del contenedor de manzanas por
+            el ancho de la manzana con su respectivo ajuste de aspecto*/
+          if (height < (appleSide/appleImageRatio)) {
+            numColumns = integerPartOperation;          
+          } else {
+            numColumns = Math.round(width/(appleSide*appleImageRatio));
+          };
+        };        
+
         //Actualizamos el array con el número de columnas por contenedor de manzanas (i)
         updatedNumColumnsArr[i] = numColumns;
         setNumColumnsArr(updatedNumColumnsArr)    
-        console.log(`Altura de la manzana: ${appleSide/appleImageRatio}`) 
-      }      
-
-      console.log(`Ancho del elemento: ${applesImagesElementRef.current.offsetWidth}`);
-      console.log(`Altura del elemento: ${applesImagesElementRef.current.offsetHeight}`);
-      console.log(operation.filter(item => !isNaN(Number(item))).length);
-      console.log(operation.length)
-      console.log(`operación: ${operation}`)
-      console.log(`Array columnas: ${updatedNumColumnsArr}`)
-      console.log(`Array columnas arreglo: ${numColumnsArr}`)
-    }
+      };    
+    };
   }, [operation]);
   
   // Genera un objeto de estilos dinámico para el número de filas y columnas de cada contenedor de manzanas
   const applesImagesElementStyles = (i: number) => {
+    const itemOperation = Number(operation[i]);
+    let rows:number = 1;
+
     // Redondeamos al entero más proximo hacia arriba de operation[i]
-    const integerPartOperation = Math.ceil(Number(operation[i]));
+    const integerPartOperation = Math.ceil(itemOperation);
+
     // Calculamos el número de filas (redondeamos hacia arriba)
-    const rows = Math.ceil(integerPartOperation / numColumnsArr[i])
+    if (itemOperation<=maxDisplayItems) {
+      rows = Math.ceil(integerPartOperation / numColumnsArr[i])
+    } else if (itemOperation%1>0) {
+      rows = 2; // Fila adicional para la parte decimal de la operación
+    }
+
     return {
       gridTemplateColumns: `repeat(${numColumnsArr[i]}, 1fr)`,
       gridTemplateRows: `repeat(${rows}, 1fr)`
@@ -102,13 +113,33 @@ const Display = ({ input, calculate }: Props) => {
         </div>
       );
     } else {
-      // Si el item es un número, se genera un array de imágenes de manzanas usando Array.from
-      const apples = Array.from({ length: Number(item) }, (_, i) => (
-        <img
-        key={`apple-${index}-${item}-${i}`}
-        src={apple}
-        alt="Apple"/>
-      ));
+      // Si el item es un número, se genera un elemento JSX con la/las manzana/s
+
+      let apples:JSX.Element | JSX.Element[];
+      const number = Number(item);
+
+      if (number<=maxDisplayItems && number>0 ) {
+        // Si item es menor o igual al número máximo de manzanas a renderizar y distinto de '0', se genera un array
+        apples = Array.from({ length: number}, (_, i) => (
+          <img
+          key={`apple-${index}-${item}-${i}`}
+          src={apple}
+          alt="Apple"/>
+        ));
+      } else if ( (operation.length==1 && item=='0' && !calculate) || item == '') {
+        // No renderizar nada cuando no se ha hecho ningún calculo o no se a ingresado algún número
+        apples = [];
+      } else {
+        // De lo contrario se genera una unica manzana con el contenido del item superpuesto
+        // Si es 0 o menor el número se aplica la clase numberZero a img
+        apples = (
+          <div className='appleContainer'>
+            <img className={number<=0 ? 'negativeNumber' : ''} src={apple} alt="Apple"/>
+            <p className='numberOverlay'> {number<=0 && number%1!=0 ? number.toFixed(numDecimals) : Math.trunc(number)} </p>
+          </div>
+        )
+      }
+
       // Se retorna un div que contiene las imágenes de manzanas
       // Se establece la propiedad 'ref' solo en el primer contenedor de manzanas para obtener una referencia a él
       // Se le asignan los estilos dinámicos de 'gridTemplateColumns' usando 'applesImagesElementStyles'
@@ -118,13 +149,29 @@ const Display = ({ input, calculate }: Props) => {
         key={`apples-${index}-${item}`}
         className='applesImagesElement'
         ref={index === 0 ? applesImagesElementRef : null}
-        style={applesImagesElementStyles(index)}>
+        style={applesImagesElementStyles(index)}>          
           {apples}
           {Number(item)%1 > 0 && <AppleSlice img={apple2} alt="Apple" decimalFraction={Number(item)%1}></AppleSlice>}
         </div>
       );
     };
-  });  
+  });
+
+  /**
+   * Esta función redondea el primer número de una expresión a un número específico de decimales.
+   * @param expression La expresión matemática en forma de string o array de strings
+   * @param numDecimals El número de decimales a redondear.
+   * @returns La expresión con el primer número redondeado al número de decimales especificado.
+   */
+  const roundFirstNumber = (expression:string|string[], numDecimals_:number) => {
+
+    const calculateArray = Array.isArray(expression) ? expression : expression.split(/([−+×÷=])/);
+
+    return (Number(calculateArray[0])%1==0
+      ? expression
+      : Number(calculateArray[0]).toFixed(numDecimals_) + calculateArray.slice(1).join('')
+    )
+  }
 
   return (
     <div className='displayContainer'>
@@ -135,10 +182,10 @@ const Display = ({ input, calculate }: Props) => {
       
       <div className='displayContainer-calculate-input'>
         <div className='displayContainer-calculate'>
-          {calculate}
+          {calculate && roundFirstNumber(calculate, numDecimals)}
         </div>    
         <div className='displayContainer-input'>
-          {input}
+          {roundFirstNumber(operation, numDecimals)}
         </div>
       </div>
 
