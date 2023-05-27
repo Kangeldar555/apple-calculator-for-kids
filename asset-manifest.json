@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/apple-calculator-for-kids/static/css/main.47a95253.css",
+    "main.js": "/apple-calculator-for-kids/static/js/main.baf3bfd4.js",
+    "index.html": "/apple-calculator-for-kids/index.html",
+    "main.47a95253.css.map": "/apple-calculator-for-kids/static/css/main.47a95253.css.map",
+    "main.baf3bfd4.js.map": "/apple-calculator-for-kids/static/js/main.baf3bfd4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.47a95253.css",
+    "static/js/main.baf3bfd4.js"
+  ]
+}
