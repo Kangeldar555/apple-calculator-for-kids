@@ -22,21 +22,18 @@ const Display = ({ input, calculate }: Props) => {
   // Número de decimales para los redondeos
   const numDecimals = 2;
 
-  const [operation, setOperation] = useState<string[]>([]);
-  const [numColumnsArr, setNumColumnsArr] = useState<number[]>([]);  
+  const [numColumnsArr, setNumColumnsArr] = useState<number[]>([]);
+  const lastOperation = useRef<string[]>([]);
   // Creamos una referencia mutable a un elemento de la interfaz de usuario con useRef
   const applesImagesElementRef = useRef<HTMLDivElement>(null);
   
   // Separamos cada elemento de la operación en un array utilizando una expresión regular que busca los operadores
   // (+, −, ×, ÷, y =) como separadores. Cada número u operador se almacena en una posición del array Operation.
-  useEffect(() => {
-    setOperation(input.split(/([−+×÷=])/));
-  }, [input]);  
+  const operation=(input.split(/([−+×÷=])/));
  
   // Usamos useEffect para calcular el número de columnas de los contenedores de manzanas dependiendo de las dimensiones del elemento referenciado
-  // Los cálculos se ejecutan cada vez que cambie el array 'operation'
-  useEffect(() => {
-    if (applesImagesElementRef.current) {     
+  useEffect(() => {    
+    if (applesImagesElementRef.current) {
 
       // Obtenemos el ancho y el alto del contenedor de las manzanas
       // Todos los contenedores de manzanas tienen las mismas dimensiones por lo tanto solo se tiene referencia al primero
@@ -75,13 +72,15 @@ const Display = ({ input, calculate }: Props) => {
 
         //Actualizamos el array con el número de columnas por contenedor de manzanas (i)
         updatedNumColumnsArr[i] = numColumns;
-        setNumColumnsArr(updatedNumColumnsArr)    
+        setNumColumnsArr(updatedNumColumnsArr);
       };    
     };
-  }, [operation]);
+
+    lastOperation.current = operation;
+  }, [input]);
   
   // Genera un objeto de estilos dinámico para el número de filas y columnas de cada contenedor de manzanas
-  const applesImagesElementStyles = (i: number) => {
+  const applesImagesElementStyles = (i: number):React.CSSProperties => {
     const itemOperation = Number(operation[i]);
     let rows:number = 1;
 
@@ -97,8 +96,12 @@ const Display = ({ input, calculate }: Props) => {
 
     return {
       gridTemplateColumns: `repeat(${numColumnsArr[i]}, 1fr)`,
-      gridTemplateRows: `repeat(${rows}, 1fr)`
-    }
+      gridTemplateRows: `repeat(${rows}, 1fr)`,
+      // La visibilidad de los contenedores de manzanas se ajusta para evitar visualizaciones cuando el número de columnas está sin calcular
+      visibility: operation.length == lastOperation.current.length && operation[i] == lastOperation.current[i]
+      ? 'visible'
+      : 'hidden'
+    };
   }
   
   // Mapeamos el array de 'operation' para generar los elementos de la calculadora  
