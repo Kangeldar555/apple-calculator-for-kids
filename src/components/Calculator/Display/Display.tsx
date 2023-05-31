@@ -12,7 +12,8 @@ type Props = {
 };
 
 const Display = ({ input, calculate }: Props) => {
-  
+  console.log('render Display ' +input)
+
   // Relación de aspecto de la imagen usada (ancho/alto)
   const appleImageRatio = 9/11;
 
@@ -79,30 +80,14 @@ const Display = ({ input, calculate }: Props) => {
     lastOperation.current = operation;
   }, [input]);
   
-  // Genera un objeto de estilos dinámico para el número de filas y columnas de cada contenedor de manzanas
-  const applesImagesElementStyles = (i: number):React.CSSProperties => {
-    const itemOperation = Number(operation[i]);
-    let rows:number = 1;
-
-    // Redondeamos al entero más proximo hacia arriba de operation[i]
-    const integerPartOperation = Math.ceil(itemOperation);
-
-    // Calculamos el número de filas (redondeamos hacia arriba)
-    if (itemOperation<=maxDisplayItems) {
-      rows = Math.ceil(integerPartOperation / numColumnsArr[i])
-    } else if (itemOperation%1>0) {
-      rows = 2; // Fila adicional para la parte decimal de la operación
-    }
-
-    return {
+  // Genera un objeto de estilos dinámico principalmente con el número de columnas de cada contenedor de manzanas
+  const applesImagesElementStyles = (i: number):React.CSSProperties => ({
       gridTemplateColumns: `repeat(${numColumnsArr[i]}, 1fr)`,
-      gridTemplateRows: `repeat(${rows}, 1fr)`,
       // La visibilidad de los contenedores de manzanas se ajusta para evitar visualizaciones cuando el número de columnas está sin calcular
       visibility: operation.length == lastOperation.current.length && operation[i] == lastOperation.current[i]
       ? 'visible'
       : 'hidden'
-    };
-  }
+  });
   
   // Mapeamos el array de 'operation' para generar los elementos de la calculadora  
   const operationElements = operation.map((item, index) => {
