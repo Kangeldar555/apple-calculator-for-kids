@@ -154,9 +154,9 @@ const Display = ({ input, calculate }: Props) => {
 
     const calculateArray = Array.isArray(expression) ? expression : expression.split(/([−+×÷=])/);
 
-    return (Number(calculateArray[0])%1==0
-      ? expression
-      : Number(calculateArray[0]).toFixed(numDecimals_) + calculateArray.slice(1).join('')
+    return (Number(calculateArray[0])%1 > 0
+      ? Number(calculateArray[0]).toFixed(numDecimals_) + calculateArray.slice(1).join('')
+      : expression
     )
   }
 
