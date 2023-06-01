@@ -12,7 +12,6 @@ type Props = {
 };
 
 const Display = ({ input, calculate }: Props) => {
-  console.log('render Display ' +input)
 
   // Relación de aspecto de la imagen usada (ancho/alto)
   const appleImageRatio = 9/11;
