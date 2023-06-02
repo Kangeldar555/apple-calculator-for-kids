@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { evaluate } from 'mathjs'; //Paquete matemático (npm install mathjs)
+import { evaluate, format } from 'mathjs'; //Paquete matemático (npm install mathjs)
 import Display from './Display/Display';
 import Keypad from './Keypad/Keypad';
 import './Calculator.scss';
@@ -41,8 +41,10 @@ const Calculator = () => {
     // Se remueve el ultimo elemento de la expresión si es un operador
     let expression:string = endsWithOperatorRegex.test(input) ? input.slice(0,-1) : input;
 
-    setCalculate(expression + '=');// Establecemos la expresión de la operación actual    
-    setInput(evaluate(replaceOperators(expression)).toString()); // evaluate: función del paquete mathjs que nos permite calcular el resultado, nos devuelve un number
+    setCalculate(expression + '=');// Establecemos la expresión de la operación actual
+    
+    let result:number = evaluate(replaceOperators(expression));  // evaluate: función del paquete mathjs que nos permite calcular el resultado, nos devuelve un number    
+    setInput(result <= 1e+20 ? result.toString() : format(result, {notation: 'fixed'})); // La función format con fixed nos permite mostrar el resultado sin notación científica
   }
 
   //Función para agregar operadores al cálculo
