@@ -8,8 +8,6 @@ type Props = {
 };
 
 const Keypad = ({ _handleKeypadInput }: Props) => {
-
-  const [size, setSize] = useState<'sm' | 'lg' | undefined>('lg')
   
   const handleKeypadInput = (input: string) => {
     _handleKeypadInput(input); //Función para manejar 'input' en el componente padre
@@ -18,25 +16,25 @@ const Keypad = ({ _handleKeypadInput }: Props) => {
   return (
     <>
       <ButtonGroup className='keypadContainer' vertical>
-        <ButtonGroup size={ size } aria-label="First group">
+        <ButtonGroup aria-label="First group">
           <Button _onClick={ handleKeypadInput }>7</Button>   
           <Button _onClick={ handleKeypadInput }>8</Button>   
           <Button _onClick={ handleKeypadInput }>9</Button>   
           <Button _onClick={ handleKeypadInput }>÷</Button> 
         </ButtonGroup>
-        <ButtonGroup size={ size } aria-label="Second group">
+        <ButtonGroup aria-label="Second group">
           <Button _onClick={ handleKeypadInput }>4</Button>   
           <Button _onClick={ handleKeypadInput }>5</Button>   
           <Button _onClick={ handleKeypadInput }>6</Button>   
           <Button _onClick={ handleKeypadInput }>×</Button> 
         </ButtonGroup>
-        <ButtonGroup size={ size } aria-label="First group">
+        <ButtonGroup aria-label="First group">
           <Button _onClick={ handleKeypadInput }>1</Button>   
           <Button _onClick={ handleKeypadInput }>2</Button>   
           <Button _onClick={ handleKeypadInput }>3</Button>   
           <Button _onClick={ handleKeypadInput }>−</Button> 
         </ButtonGroup>
-        <ButtonGroup size={ size } aria-label="First group">
+        <ButtonGroup aria-label="First group">
           <Button _onClick={ handleKeypadInput }>0</Button>   
           <Button _onClick={ handleKeypadInput }>C</Button>   
           <Button _onClick={ handleKeypadInput }>=</Button>   

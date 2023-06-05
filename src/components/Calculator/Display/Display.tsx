@@ -77,13 +77,14 @@ const Display = ({ input, calculate }: Props) => {
     };
 
     lastOperation.current = operation;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
   
   // Genera un objeto de estilos dinámico principalmente con el número de columnas de cada contenedor de manzanas
   const applesImagesElementStyles = (i: number):React.CSSProperties => ({
       gridTemplateColumns: `repeat(${numColumnsArr[i]}, 1fr)`,
       // La visibilidad de los contenedores de manzanas se ajusta para evitar visualizaciones cuando el número de columnas está sin calcular
-      visibility: operation.length == lastOperation.current.length && operation[i] == lastOperation.current[i]
+      visibility: operation.length === lastOperation.current.length && operation[i] === lastOperation.current[i]
       ? 'visible'
       : 'hidden'
   });
@@ -113,7 +114,7 @@ const Display = ({ input, calculate }: Props) => {
           src={apple}
           alt="Apple"/>
         ));
-      } else if ( (operation.length==1 && item=='0' && !calculate) || item == '') {
+      } else if ( (operation.length===1 && item==='0' && !calculate) || item === '') {
         // No renderizar nada cuando no se ha hecho ningún calculo o no se a ingresado algún número
         apples = [];
       } else {
@@ -122,7 +123,7 @@ const Display = ({ input, calculate }: Props) => {
         apples = (
           <div className='appleContainer'>
             <img className={number<=0 ? 'negativeNumber' : ''} src={apple} alt="Apple"/>
-            <p className='numberOverlay'> {number<=0 && number%1!=0 ? number.toFixed(numDecimals) : Math.trunc(number)} </p>
+            <p className='numberOverlay'> {number<=0 && number%1!==0 ? number.toFixed(numDecimals) : Math.trunc(number)} </p>
           </div>
         )
       }

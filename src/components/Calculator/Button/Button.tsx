@@ -1,6 +1,6 @@
 import React from 'react';
 import './Button.scss';
-import Button_ from 'react-bootstrap/Button';
+import BsButton from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 type Props = {
@@ -21,24 +21,25 @@ const Button = ({ children, _onClick }: Props) => {
   | 'dark'
   | 'link'; 
 
-  let numbers = '0123456789';
-  let operators = '+−×÷';
+  const numbers = '0123456789';
+  const operators = '−+×÷';
 
   if (numbers.includes(children)) {
     style = 'warning' ; //Estilo números
   } else if (operators.includes(children)) {
     style = 'dark'; //Estilo operadores
-  } else if (children == '=') {
+  } else if (children === '=') {
     style = 'success'; //Estilo botón'igual'
   } else {
     style = 'danger'; //Estilo botón 'clear' y otros
   }
 
   return (
-    <Button_ variant={ style }
+    <BsButton  className='BsButton'
+    variant={ style }
     onClick={() => _onClick(children)}>
       { children }     
-    </Button_>
+    </BsButton>
   )
 }
 

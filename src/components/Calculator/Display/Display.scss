@@ -1,8 +1,8 @@
+$input-color: #ff0000;
+
 .displayContainer {
     display: flex;
     flex-direction:column;
-    align-items: end;
-    justify-content: space-between;
     background-color: #fffd78;    
     padding: 15px 15px 5px 15px;
     height: 100%;
@@ -18,16 +18,15 @@
         padding-inline: 1%;
         padding-bottom: 1%;
         gap: 1%;
+        font-weight: 900;              
 
-        .operatorElement, .appleImagesElement {
-            display: flex;
-            justify-content: center;
-            align-items: center; 
+        .operatorElement, .applesImagesElement {
+            display: grid;
+            place-items: center;
+            line-height: 1;
         }
     
         .applesImagesElement {
-            display: grid;
-            place-items: center;
             grid-auto-rows: 1fr;
             width: 100%;
             height: 100%;         
@@ -42,24 +41,30 @@
             }
 
             >img,
-            .appleContainer {
+            .appleContainer>img {
                 filter: drop-shadow(0px 1px 1px black);
             }
 
             .appleContainer {
                 position: relative;
+                display: grid;
+                place-content: center;
+                width: 100%;
+                height: 100%;
+                min-width: 1%;
+                min-height: 1%;
 
                 .numberOverlay {
                     position: absolute;                   
-                    top: 62%;
+                    top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
                     color: white;
                     font-size: 0.6em;
-                    padding-inline: 5%;              
                     max-width: 100%;
                     overflow: hidden;
-                    text-overflow: ellipsis;                  
+                    text-overflow: ellipsis;
+                    -webkit-text-stroke: 0.07em black; // Borde de la fuente
                 }
 
                 .negativeNumber{
@@ -75,13 +80,14 @@
         width: 100%;
         max-height: 3em; // 2 filas de texto máximo
         gap: 0.5em;
+        font-weight: 600;
 
         .displayContainer-calculate{
             display: grid;
             align-items: end;
             overflow-wrap: anywhere;
             font-size: 0.8em;
-            color: #e06262;
+            color: rgba($input-color, 0.7);
             overflow-y: auto;
             flex: 1; // 1 1 0
             direction: rtl; // Cambia la dirección del texto de derecha a izquierda incluido el scroll en y
@@ -93,7 +99,7 @@
             align-items: end;
             overflow-wrap: anywhere;
             height: 100%;
-            color: #ee0303;
+            color: $input-color;
             overflow-y: auto;
         }
     }

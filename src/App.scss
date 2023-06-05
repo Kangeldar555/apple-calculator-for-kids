@@ -4,5 +4,5 @@
     align-items: center;
     flex-direction: column;
     height: 100vh; /*100% de la altura del navegador*/
-    background-color: #a19b1c;  
+    background: radial-gradient(circle, var(--bs-warning) 0%, rgba(36,33,28,1) 100%);  
 }

@@ -1,7 +1,16 @@
-.btn {
-    font-size: 1em!important;
+.BsButton {
+    font-size: 1.1em!important;
+    font-weight: 600!important;
     border-radius: 0!important;    
     height: 100%;
     width: 100%;
-    padding: 0!important;
+    padding: 0!important;    
+}
+
+.btn-success {
+    filter: saturate(1.5);
+}
+
+.btn-danger {
+    filter: saturate(1.2);
 }
