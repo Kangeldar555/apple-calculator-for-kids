@@ -10,6 +10,7 @@ type Props = {
 
 const AppleSlice = ({ img, decimalFraction, alt}: Props) => {
 
+  //Máximas porciones a renderizar
   const maxSlices = 50;
     
   // Estado para controlar si la imagen se carga correctamente

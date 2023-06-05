@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Display.scss';
 import apple from '../../../images/apple.png';
 import apple2 from '../../../images/apple2.png';
+import kid from '../../../images/kid.png';
 import AppleSlice from '../AppleSlice/AppleSlice';
 
 // 'input' se utiliza para registrar los ingresos del teclado
@@ -13,7 +14,7 @@ type Props = {
 
 const Display = ({ input, calculate }: Props) => {
 
-  // Relación de aspecto de la imagen usada (ancho/alto)
+  // Relación de aspecto de la imagen más usada (apple) (ancho/alto)
   const appleImageRatio = 9/11;
 
   // Máximas manzanas a mostrar en el display por contenedor
@@ -22,6 +23,9 @@ const Display = ({ input, calculate }: Props) => {
   // Número de decimales para los redondeos
   const numDecimals = 2;
 
+  const operators = '−+×÷=';
+  const operatorsRegex = new RegExp(`([${operators}])`)
+  
   const [numColumnsArr, setNumColumnsArr] = useState<number[]>([]);
   const lastOperation = useRef<string[]>([]);
   // Creamos una referencia mutable a un elemento de la interfaz de usuario con useRef
@@ -29,7 +33,7 @@ const Display = ({ input, calculate }: Props) => {
   
   // Separamos cada elemento de la operación en un array utilizando una expresión regular que busca los operadores
   // (+, −, ×, ÷, y =) como separadores. Cada número u operador se almacena en una posición del array Operation.
-  const operation=(input.split(/([−+×÷=])/));
+  const operation=(input.split(operatorsRegex));
  
   // Usamos useEffect para calcular el número de columnas de los contenedores de manzanas dependiendo de las dimensiones del elemento referenciado
   useEffect(() => {    
@@ -101,28 +105,30 @@ const Display = ({ input, calculate }: Props) => {
         </div>
       );
     } else {
-      // Si el item es un número, se genera un elemento JSX con la/las manzana/s
-
-      let apples:JSX.Element | JSX.Element[];
+      // Si el item es un número, se genera un elemento JSX con manzanas o niños según
+      // Si el operador que antecede es la división se renderiza 'kid'
+      let renderedImages:JSX.Element | JSX.Element[];
       const number = Number(item);
 
       if (number<=maxDisplayItems && number>0 ) {
         // Si item es menor o igual al número máximo de manzanas a renderizar y distinto de '0', se genera un array
-        apples = Array.from({ length: number}, (_, i) => (
+        renderedImages = Array.from({ length: number}, (_, i) => (
           <img
           key={`apple-${index}-${item}-${i}`}
-          src={apple}
+          src={ operation[index-1] === operators[3] ? kid : apple }
           alt="Apple"/>
         ));
       } else if ( (operation.length===1 && item==='0' && !calculate) || item === '') {
         // No renderizar nada cuando no se ha hecho ningún calculo o no se a ingresado algún número
-        apples = [];
+        renderedImages = [];
       } else {
         // De lo contrario se genera una unica manzana con el contenido del item superpuesto
         // Si es 0 o menor el número se aplica la clase numberZero a img
-        apples = (
+        renderedImages = (
           <div className='appleContainer'>
-            <img className={number<=0 ? 'negativeNumber' : ''} src={apple} alt="Apple"/>
+            <img className={number<=0 ? 'negativeNumber' : ''}
+            src={ operation[index-1] === operators[3] ? kid : apple }
+            alt="Apple"/>
             <p className='numberOverlay'> {number<=0 && number%1!==0 ? number.toFixed(numDecimals) : Math.trunc(number)} </p>
           </div>
         )
@@ -138,7 +144,7 @@ const Display = ({ input, calculate }: Props) => {
         className='applesImagesElement'
         ref={index === 0 ? applesImagesElementRef : null}
         style={applesImagesElementStyles(index)}>          
-          {apples}
+          {renderedImages}
           {Number(item)%1 > 0 && <AppleSlice img={apple2} alt="Apple" decimalFraction={Number(item)%1}></AppleSlice>}
         </div>
       );
