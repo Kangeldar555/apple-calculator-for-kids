@@ -20,7 +20,7 @@ const Display = ({ input, calculate }: Props) => {
   // Máximas manzanas a mostrar en el display por contenedor
   const maxDisplayItems = 100;
 
-  // Número de decimales para los redondeos
+  // Número de cifras significativas solo de la parte decimal
   const numDecimals = 2;
 
   const operators = '−+×÷=';
@@ -34,6 +34,34 @@ const Display = ({ input, calculate }: Props) => {
   // Separamos cada elemento de la operación en un array utilizando una expresión regular que busca los operadores
   // (+, −, ×, ÷, y =) como separadores. Cada número u operador se almacena en una posición del array Operation.
   const operation=(input.split(operatorsRegex));
+  
+  /**
+   * Esta función redondea el primer número de una expresión a un número específico de decimales según las cifras significativas.
+   * @param expression La expresión matemática en forma de number, string o array de strings
+   * @param numDecimals El número de cifras significativas de solo la parte decimal.
+   * @returns La expresión con el primer número redondeado al número de decimales especificado.
+   */
+  const roundFirstNumber = (expression:number|string|string[], numDecimals_:number) => {
+
+    const calculateArray = Array.isArray(expression) ? expression : expression.toString().split(/([−+×÷=])/);
+
+    if (Math.abs(Number(calculateArray[0]))%1 > 0) {
+      
+      let newNumDecimals = numDecimals_;
+      let roundedExpression = Number(calculateArray[0]).toFixed(newNumDecimals);
+
+      // Bucle para evaluar el número de decimales a redondear
+      while (roundedExpression.slice(-numDecimals_,-(numDecimals_-1)) === '0') {
+        newNumDecimals += 1;
+        roundedExpression = Number(calculateArray[0]).toFixed(newNumDecimals);
+      }
+
+      return roundedExpression + calculateArray.slice(1).join('')
+
+    } else {
+      return expression
+    }
+  }
  
   // Usamos useEffect para calcular el número de columnas de los contenedores de manzanas dependiendo de las dimensiones del elemento referenciado
   useEffect(() => {    
@@ -129,7 +157,7 @@ const Display = ({ input, calculate }: Props) => {
             <img className={number<=0 ? 'negativeNumber' : ''}
             src={ operation[index-1] === operators[3] ? kid : apple }
             alt="Apple"/>
-            <p className='numberOverlay'> {number<=0 && number%1!==0 ? number.toFixed(numDecimals) : Math.trunc(number)} </p>
+            <p className='numberOverlay'> {number<=0 && number%1!==0 ? roundFirstNumber(number, numDecimals) : Math.trunc(number)} </p>
           </div>
         )
       }
@@ -150,22 +178,6 @@ const Display = ({ input, calculate }: Props) => {
       );
     };
   });
-
-  /**
-   * Esta función redondea el primer número de una expresión a un número específico de decimales.
-   * @param expression La expresión matemática en forma de string o array de strings
-   * @param numDecimals El número de decimales a redondear.
-   * @returns La expresión con el primer número redondeado al número de decimales especificado.
-   */
-  const roundFirstNumber = (expression:string|string[], numDecimals_:number) => {
-
-    const calculateArray = Array.isArray(expression) ? expression : expression.split(/([−+×÷=])/);
-
-    return (Math.abs(Number(calculateArray[0]))%1 > 0
-      ? Number(calculateArray[0]).toFixed(numDecimals_) + calculateArray.slice(1).join('')
-      : expression
-    )
-  }
 
   return (
     <div className='displayContainer'>
