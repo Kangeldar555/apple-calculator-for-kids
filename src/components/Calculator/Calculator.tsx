@@ -129,6 +129,10 @@ const Calculator = () => {
   const handleInput = (value: string) => {
 
     switch (value) {
+      case 'Delete':
+        isResultCalculated.current = true; // Comodín para borrar todo      
+        clear();
+        break;
       case 'C':
         clear();
         break;
@@ -152,7 +156,7 @@ const Calculator = () => {
         <Display input= { input } calculate= { calculate }/>
       </div>
       <div className='calculatorContainer-keypad'>
-        <Keypad _handleKeypadInput={ handleInput }/>
+        <Keypad handleKeypadInput={ handleInput }/>
       </div>
     </div>
   );

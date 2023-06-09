@@ -1,44 +1,47 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Keypad.scss';
 import Button from '../Button/Button';
 import ButtonGroup from 'react-bootstrap/esm/ButtonGroup';
+import useKeyboardPress from '../../../hooks/useKeyboardPress';
 
 type Props = {
-  _handleKeypadInput: (value: string) => void;
+  handleKeypadInput: (value: string) => void;
 };
 
-const Keypad = ({ _handleKeypadInput }: Props) => {
+const Keypad = ({ handleKeypadInput }: Props) => {
+
+  useKeyboardPress(handleKeypadInput);
   
-  const handleKeypadInput = (input: string) => {
-    _handleKeypadInput(input); //Función para manejar 'input' en el componente padre
+  const handleScreenKeypadInput = (input: string) => {
+    handleKeypadInput(input); //Función para manejar 'input' en el componente padre
   };
   
   return (
     <>
       <ButtonGroup className='keypadContainer' vertical>
         <ButtonGroup aria-label="First group">
-          <Button _onClick={ handleKeypadInput }>7</Button>   
-          <Button _onClick={ handleKeypadInput }>8</Button>   
-          <Button _onClick={ handleKeypadInput }>9</Button>   
-          <Button _onClick={ handleKeypadInput }>÷</Button> 
+          <Button _onClick={ handleScreenKeypadInput }>7</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>8</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>9</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>÷</Button> 
         </ButtonGroup>
         <ButtonGroup aria-label="Second group">
-          <Button _onClick={ handleKeypadInput }>4</Button>   
-          <Button _onClick={ handleKeypadInput }>5</Button>   
-          <Button _onClick={ handleKeypadInput }>6</Button>   
-          <Button _onClick={ handleKeypadInput }>×</Button> 
+          <Button _onClick={ handleScreenKeypadInput }>4</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>5</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>6</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>×</Button> 
         </ButtonGroup>
         <ButtonGroup aria-label="First group">
-          <Button _onClick={ handleKeypadInput }>1</Button>   
-          <Button _onClick={ handleKeypadInput }>2</Button>   
-          <Button _onClick={ handleKeypadInput }>3</Button>   
-          <Button _onClick={ handleKeypadInput }>−</Button> 
+          <Button _onClick={ handleScreenKeypadInput }>1</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>2</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>3</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>−</Button> 
         </ButtonGroup>
         <ButtonGroup aria-label="First group">
-          <Button _onClick={ handleKeypadInput }>0</Button>   
-          <Button _onClick={ handleKeypadInput }>C</Button>   
-          <Button _onClick={ handleKeypadInput }>=</Button>   
-          <Button _onClick={ handleKeypadInput }>+</Button> 
+          <Button _onClick={ handleScreenKeypadInput }>0</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>C</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>=</Button>   
+          <Button _onClick={ handleScreenKeypadInput }>+</Button> 
         </ButtonGroup>
       </ButtonGroup>
     </>
