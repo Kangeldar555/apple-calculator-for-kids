@@ -1,0 +1,35 @@
+$breakpoint-mobile: 768px; // md en bootstrap
+$max-width-navbar: 1920px;
+
+.custom-navbar {
+
+    .navbar-toggler {
+        padding: 0.25rem 0.5rem; // Espaciado interno del botón
+        font-size: 1rem; // Tamaño del texto del botón. Modifica el tamaño del icono (unidades em)
+    }
+      
+    @media (min-width: $breakpoint-mobile) {
+        background: none!important;        
+
+        .custom-container {        
+            max-width: $max-width-navbar;
+        }
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
+
+.custom-dialog {
+    backdrop-filter: blur(10px);
+
+    button {
+        filter: invert(1);
+    }
+
+    @media (min-width: $breakpoint-mobile) {
+        backdrop-filter: none;
+    }
+}

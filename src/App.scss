@@ -5,4 +5,17 @@
     flex-direction: column;
     height: 100vh; /*100% de la altura del navegador*/
     background: radial-gradient(circle, var(--bs-warning) 0%, rgba(36,33,28,1) 100%);  
+
+    header {
+        width: 100%;
+    }
+
+    section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+    }
 }

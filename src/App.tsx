@@ -1,12 +1,17 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import './App.scss';
 import Calculator from './components/Calculator/Calculator';
+import Header from './components/Header/Header';
+import './App.scss';
 
 function App() {
   return (
     <div className="App">
-      <Calculator/>
+      <header>
+        <Header expand='md'/>
+      </header>
+      <section>
+        <Calculator/>
+      </section>
     </div>
   );
 }
