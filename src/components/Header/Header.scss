@@ -29,6 +29,14 @@ $max-width-navbar: 1920px;
         filter: invert(1);
     }
 
+    footer {
+        font-size: 13px;
+
+        @media (min-width: $breakpoint-mobile) {
+            display: none;
+        }
+    }
+
     @media (min-width: $breakpoint-mobile) {
         backdrop-filter: none;
     }

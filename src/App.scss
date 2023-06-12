@@ -1,3 +1,5 @@
+$breakpoint-mobile: 768px; // md en bootstrap 
+
 .App {
     display: flex;
     justify-content: center;
@@ -17,5 +19,11 @@
         height: 100%;
         width: 100%;
         overflow: auto;
+    }
+
+    footer {
+        @media (max-width: $breakpoint-mobile) {
+            display: none;
+        }
     }
 }

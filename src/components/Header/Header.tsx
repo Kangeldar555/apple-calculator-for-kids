@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import Footer from '../Footer/Footer';
 import './Header.scss';
 
 type Props = {
@@ -59,6 +60,9 @@ const Header = ({ expand }: Props) => {
               <Nav.Link href="#3">{aboutLinkText}</Nav.Link>
             </Nav>
           </Offcanvas.Body>
+          <footer>
+            <Footer />
+          </footer>
         </Navbar.Offcanvas>
       </Container>
     </Navbar>
