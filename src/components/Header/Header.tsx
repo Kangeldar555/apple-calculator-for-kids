@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import Footer from '../Footer/Footer';
 import './Header.scss';
+import { Link, NavLink } from 'react-router-dom';
 
 type Props = {
   expand: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
@@ -17,10 +18,20 @@ const Header = ({ expand }: Props) => {
   const helpLinkText = 'Ayuda';
   const aboutLinkText = 'Acerca';
 
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseMenu = () => {
+    setShowModal(false);
+  };
+
+  const handleToggleMenu = () => {
+    setShowModal((prevShowModal) => !prevShowModal);
+  };
+
   return (
-    <Navbar bg="dark" variant="dark" expand={expand} className="custom-navbar bg-gradient">
-      <Container fluid className='custom-container'>
-        <Navbar.Brand href="#" className="d-flex align-items-center">
+    <Navbar variant="dark" expand={expand} className="custom-navbar">
+      <Container fluid className='custom-content'>
+        <Navbar.Brand as={Link} to='/' className="d-flex align-items-center">
           <img
             src={appLogoUrl}
             alt="Logo"
@@ -31,15 +42,24 @@ const Header = ({ expand }: Props) => {
           <h1 className="d-md-none fs-6 m-0">{shortTitle}</h1>
           <h1 className="d-none d-md-inline fs-5 m-0">{fullTitle}</h1>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+        <Navbar.Toggle
+          aria-controls={`offcanvasNavbar-expand-${expand}`}
+          onClick={handleToggleMenu} // Permite cerrar y abrir el menú
+        />
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-${expand}`}
           aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
           placement="top"
           className="custom-dialog bg-dark bg-opacity-75 text-white h-100"
+          show={showModal} // Controla la vista del menú
         >
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`} className='d-flex align-items-center'>
+          <Offcanvas.Header closeButton
+          onClick={handleCloseMenu}>
+            <Offcanvas.Title
+              id={`offcanvasNavbarLabel-expand-${expand}`}
+              onClick={(e: React.MouseEvent<HTMLHeadingElement>) => e.stopPropagation()} // Evita la propagación del onClick del elemento padre
+              className='d-flex align-items-center w-100'
+            >
               <img
                 src={appLogoUrl}
                 alt="Logo"
@@ -55,9 +75,9 @@ const Header = ({ expand }: Props) => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link href="#1">{homeLinkText}</Nav.Link>
-              <Nav.Link href="#2">{helpLinkText}</Nav.Link>
-              <Nav.Link href="#3">{aboutLinkText}</Nav.Link>
+              <Nav.Link as={NavLink} to='/' onClick={handleCloseMenu}>{homeLinkText}</Nav.Link>
+              <Nav.Link as={NavLink} to='/help' onClick={handleCloseMenu}>{helpLinkText}</Nav.Link>
+              <Nav.Link as={NavLink} to='/about' onClick={handleCloseMenu}>{aboutLinkText}</Nav.Link>
             </Nav>
           </Offcanvas.Body>
           <footer>

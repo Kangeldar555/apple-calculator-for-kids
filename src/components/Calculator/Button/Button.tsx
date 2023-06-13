@@ -1,7 +1,6 @@
 import React from 'react';
 import './Button.scss';
 import BsButton from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 type Props = {
   children: string;
