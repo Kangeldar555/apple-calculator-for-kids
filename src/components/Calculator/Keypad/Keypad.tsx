@@ -9,8 +9,8 @@ type Props = {
 };
 
 const Keypad = ({ handleKeypadInput }: Props) => {
-
-  useKeyboardPress(handleKeypadInput);
+  
+  useKeyboardPress(handleKeypadInput); // Custom Hook para manejar las entradas del usuario a traves del teclado físico
   
   const handleScreenKeypadInput = (input: string) => {
     handleKeypadInput(input); //Función para manejar 'input' en el componente padre

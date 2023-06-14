@@ -26,10 +26,6 @@ $max-width-navbar: 1920px;
 .custom-dialog {
     backdrop-filter: blur(10px);
 
-    button {
-        filter: invert(1);
-    }
-
     footer {
         font-size: 13px;
 

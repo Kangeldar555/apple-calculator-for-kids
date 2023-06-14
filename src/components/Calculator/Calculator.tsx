@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { evaluate, format } from 'mathjs'; //Paquete matemático (npm install mathjs)
 import Display from './Display/Display';
 import Keypad from './Keypad/Keypad';
+import WarningModal from './WarningModal/WarningModal';
 import './Calculator.scss';
 
 const Calculator = () => {
@@ -11,12 +12,22 @@ const Calculator = () => {
 
   const operators = '−+×÷';
 
-  const divisionByZeroWarning = '¡Ups! No se puede dividir por cero. Intenta con otro número, ¡uno distinto de cero!';
-  const maxOperationsWarning = `¡Ups! Has alcanzado el número máximo de operaciones permitidas(${maxNumberOfOperations}). ¿Estás listo para obtener el resultado? Ingresa '='. ¡Diviértete calculando!`;
+  const [showWarning, setShowWarning] = useState<boolean>(false)
+  const warningContentRef = useRef<[string, string]>(['', '']);
+  const divisionByZeroWarningTitle = '¡Ups! No se puede dividir por cero 😐';
+  const divisionByZeroWarning = `Parece que estás intentando dividir por cero 🙈.
+  Recuerda que en las matemáticas, dividir por cero no tiene solución ❌.
+  ¡Prueba con otro número diferente de cero y sigue explorando las operaciones matemáticas! 💪`
+  const maxOperationsWarningTitle = '¡Vaya! ¡Demasiadas operaciones! 😕'
+  const maxOperationsWarning = `Has alcanzado el número máximo de operaciones permitidas (${maxNumberOfOperations}) 🧮.
+  ¡Ya casi lo tienes! Ingresa '=' para obtener el resultado 🎯.
+  ¡Sigue divirtiéndote calculando! 🚀`;
 
   const [input, setInput] = useState<string>('0');
   const [calculate, setCalculate] = useState<string>('');
   const isResultCalculated = useRef<boolean>(false);
+
+  const emptyFunction = () => {};
 
   //Función para calcular resultado
   const calculateResult = () => {
@@ -82,8 +93,9 @@ const Calculator = () => {
       } else if (countOperators(prevInput, allOperatorsRegex) < maxNumberOfOperations){
         return prevInput + operator;
       } else {
-        alert (maxOperationsWarning)
-        return prevInput
+        setShowWarning(true);
+        warningContentRef.current = [maxOperationsWarningTitle, maxOperationsWarning];
+        return prevInput;
       };
     });
   };
@@ -97,7 +109,8 @@ const Calculator = () => {
         return number; //Agregamos el número reemplazando el resultado anterior
       } else if (prevInput.endsWith(operators[3]) && number === '0') {
         // Validamos que no se pueda dividir por 0
-        alert(divisionByZeroWarning)
+        setShowWarning(true);
+        warningContentRef.current = [divisionByZeroWarningTitle, divisionByZeroWarning];
         return prevInput
       } else {
         return prevInput === '0' ? number : prevInput + number;
@@ -156,8 +169,13 @@ const Calculator = () => {
         <Display input= { input } calculate= { calculate }/>
       </div>
       <div className='calculatorContainer-keypad'>
-        <Keypad handleKeypadInput={ handleInput }/>
+        <Keypad handleKeypadInput={ showWarning ? emptyFunction : handleInput }/>
       </div>
+      <WarningModal
+        show={showWarning}
+        onHide={() => setShowWarning(false)}
+        content={warningContentRef.current}
+      />
     </div>
   );
 };

@@ -53,8 +53,11 @@ const Header = ({ expand }: Props) => {
           className="custom-dialog bg-dark bg-opacity-75 text-white h-100"
           show={showModal} // Controla la vista del menú
         >
-          <Offcanvas.Header closeButton
-          onClick={handleCloseMenu}>
+          <Offcanvas.Header
+            closeButton
+            onClick={handleCloseMenu}
+            closeVariant='white'
+          >
             <Offcanvas.Title
               id={`offcanvasNavbarLabel-expand-${expand}`}
               onClick={(e: React.MouseEvent<HTMLHeadingElement>) => e.stopPropagation()} // Evita la propagación del onClick del elemento padre
