@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/apple-calculator-for-kids/static/css/main.e1a34818.css",
-    "main.js": "/apple-calculator-for-kids/static/js/main.a843f72d.js",
+    "main.css": "/apple-calculator-for-kids/static/css/main.cf9a8f51.css",
+    "main.js": "/apple-calculator-for-kids/static/js/main.175fc014.js",
     "index.html": "/apple-calculator-for-kids/index.html",
-    "main.e1a34818.css.map": "/apple-calculator-for-kids/static/css/main.e1a34818.css.map",
-    "main.a843f72d.js.map": "/apple-calculator-for-kids/static/js/main.a843f72d.js.map"
+    "main.cf9a8f51.css.map": "/apple-calculator-for-kids/static/css/main.cf9a8f51.css.map",
+    "main.175fc014.js.map": "/apple-calculator-for-kids/static/js/main.175fc014.js.map"
   },
   "entrypoints": [
-    "static/css/main.e1a34818.css",
-    "static/js/main.a843f72d.js"
+    "static/css/main.cf9a8f51.css",
+    "static/js/main.175fc014.js"
   ]
 }
