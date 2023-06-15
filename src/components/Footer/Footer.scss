@@ -1,5 +1,12 @@
+$breakpoint-mobile: 768px; // md en bootstrap 
+
 .footerContainer {
     color: white;
     text-align: center;
     padding-block: 8px;
+    background-color: var(--bs-dark);
+
+    @media (min-width: $breakpoint-mobile) {
+        background: none;
+    }
 }

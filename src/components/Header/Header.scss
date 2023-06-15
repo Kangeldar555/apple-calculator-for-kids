@@ -1,5 +1,5 @@
 $breakpoint-mobile: 768px; // md en bootstrap
-$max-width-navbar: 1920px;
+$max-width-navbar: 1366px;
 
 .custom-navbar {
     background-color: var(--bs-dark);
@@ -27,10 +27,13 @@ $max-width-navbar: 1920px;
     backdrop-filter: blur(10px);
 
     footer {
-        font-size: 13px;
+        .footerContainer{
+            font-size: 13px;
+            background: none;
 
-        @media (min-width: $breakpoint-mobile) {
-            display: none;
+            @media (min-width: $breakpoint-mobile) {
+                display: none;
+            }
         }
     }
 

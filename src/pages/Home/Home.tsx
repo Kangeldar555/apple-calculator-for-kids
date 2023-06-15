@@ -1,12 +1,15 @@
 import React from 'react';
 import Calculator from '../../components/Calculator/Calculator';
 import './Home.scss';
+import MainLayout from '../../layouts/MainLayout/MainLayout';
 
 const Home = () => {
   return (
-    <div className='homeContainer'>
-      <Calculator/>
-    </div>
+    <MainLayout className='homeLayout'>
+      <div className='homeContainer'>
+        <Calculator/>
+      </div>
+    </MainLayout>
   );
 };
 
