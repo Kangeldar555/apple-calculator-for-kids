@@ -23,8 +23,9 @@ $max-width-navbar: 1366px;
     }
 }
 
-.custom-dialog {
+.customDialog {
     backdrop-filter: blur(10px);
+    overflow-y: auto;
 
     footer {
         .footerContainer{
@@ -47,5 +48,9 @@ $max-width-navbar: 1366px;
 
     @media (min-width: $breakpoint-mobile) {
         backdrop-filter: none;
+    }
+
+    .customDialog-body {
+        overflow-y: visible;
     }
 }

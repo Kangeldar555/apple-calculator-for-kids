@@ -50,7 +50,7 @@ const Header = ({ expand }: Props) => {
           id={`offcanvasNavbar-expand-${expand}`}
           aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
           placement="top"
-          className="custom-dialog bg-dark bg-opacity-75 text-white h-100"
+          className="customDialog bg-dark bg-opacity-75 text-white h-100"
           show={showModal} // Controla la vista del menú
         >
           <Offcanvas.Header
@@ -76,7 +76,7 @@ const Header = ({ expand }: Props) => {
               </div>
             </Offcanvas.Title>
           </Offcanvas.Header>
-          <Offcanvas.Body>
+          <Offcanvas.Body className='customDialog-body'>
             <Nav className="justify-content-end flex-grow-1 pe-3">
               <Nav.Link as={NavLink} to='/' onClick={handleCloseMenu}>{homeLinkText}</Nav.Link>
               <Nav.Link as={NavLink} to='/help' onClick={handleCloseMenu}>{helpLinkText}</Nav.Link>

@@ -1,4 +1,3 @@
-import React from 'react';
 import Calculator from '../../components/Calculator/Calculator';
 import './Home.scss';
 import MainLayout from '../../layouts/MainLayout/MainLayout';
